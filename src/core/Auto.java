@@ -9,50 +9,53 @@ public class Auto {
 	IntakeRamp ir1;
 	IntakeRamp ir2;
 	Drive drive;
+	Interpreter interpreter;
 	Timer tm = new Timer();
 	
 	private boolean isRunning = false;	//Whether the timer is running or not
 	private int counter = 0;
 	
-	public Auto(RobotCore robotCore, IntakeRamp ir1, IntakeRamp ir2, Drive drive){
+	public Auto(RobotCore robotCore, IntakeRamp ir1, IntakeRamp ir2, Drive drive, Interpreter interpreter){
 		this.robotcore = robotCore;
 		this.ir1 = ir1;
 		this.ir2 = ir2;
 		this.drive = drive;
+		this.interpreter = interpreter;
 	}
 	
 	/**
 	 * Runs through autonomous actions
 	 */
 	public void run(){
-		switch(counter){			
-			case 0:{
-				move(AutoConfig.disDriveBackwards,1,0);
-				break;
-			}
-			
-			case 1:{
-				runIntake2();
-				break;
-			}
-			
-			case 2:{
-				move(AutoConfig.disDriveForward,1,90);
-				break;
-			}
-			
-			case 3:{
-				runIntake1();
-				break;
-			}
-			
-			case 4:{
-				move(AutoConfig.disDriveForwardEnd, 1, 90);
-				break;
-			}
-			
-		
-		}
+		interpreter.dispatch();
+//		switch(counter){			
+//			case 0:{
+//				move(AutoConfig.disDriveBackwards,1,0);
+//				break;
+//			}
+//			
+//			case 1:{
+//				runIntake2();
+//				break;
+//			}
+//			
+//			case 2:{
+//				move(AutoConfig.disDriveForward,1,90);
+//				break;
+//			}
+//			
+//			case 3:{
+//				runIntake1();
+//				break;
+//			}
+//			
+//			case 4:{
+//				move(AutoConfig.disDriveForwardEnd, 1, 90);
+//				break;
+//			}
+//			
+//		
+//		}
 	}
 	
 	/**
