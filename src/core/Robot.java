@@ -1,6 +1,7 @@
 
 package core;
 
+import config.IRConfig;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 /**
@@ -10,7 +11,15 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends IterativeRobot {	
+	RobotCore robotCore = new RobotCore();
+	Drive drive = new Drive(robotCore); 
+	IntakeRamp ir1 = new IntakeRamp(config.IRConfig.chnRampA1, config.IRConfig.chnRampA2, config.IRConfig.chnCimIntakeA, IRConfig.cimIntakeAIsFlipped);
+	IntakeRamp ir2 = new IntakeRamp(config.IRConfig.chnRampB1, config.IRConfig.chnRampB2, config.IRConfig.chnCimIntakeB, IRConfig.cimIntakeBIsFlipped);
+	Auto auto = new Auto(robotCore, ir1, ir2, drive);
+	
+	Teleop teleop = new Teleop(robotCore, drive, ir1, ir2);
+	
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -23,14 +32,16 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-
+    	auto.run();
     }
 
     /**
      * This function is called periodically during operator control
+     * Run at 50hz
      */
     public void teleopPeriodic() {
-        
+    	teleop.run();
+    	System.out.println(robotCore.encLeft.getDistance());
     }
     
     /**
@@ -39,5 +50,6 @@ public class Robot extends IterativeRobot {
     public void testPeriodic() {
     
     }
+    
     
 }
