@@ -23,7 +23,7 @@ public class Interpreter
 		if(isFirst)
 			timer.start();
 		
-		if(timer.get() > wantValue)
+		if(timer.get() >= wantValue)
 			next();
 	}
 	
@@ -32,17 +32,19 @@ public class Interpreter
 		switch((int)commands[autoStep][0]){
 			case -1: {	//Dead line
 				//die
+				drive.move(0, 0);
+				System.out.println("Dead line at " + autoStep);
 			}	
 			case 0:{	//Drive
 				drive.move(commands[autoStep][1],commands[autoStep][2]);
 				next();
 				break;
 			}
-			
 			case 1: {	//Wait
 				wait(commands[autoStep][1]);
 				break;
 			}
+			
 		}
 		
 		isFirst = false;
