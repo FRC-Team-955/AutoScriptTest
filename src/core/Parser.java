@@ -2,6 +2,7 @@ package core;
 
 import java.io.*;
 
+
 public class Parser{	
 	public static double[][] getData() {
 		double i[][] = {{0,0,1},{1,10,0},{0,0,1}};
@@ -9,7 +10,7 @@ public class Parser{
 	}
 	
 	public static double[][] parse() {
-		String fileLocation = "C:/Users/Trevor/Desktop/source.txt"; //TODO make this better
+		String fileLocation = "/home/lvuser/source.txt"; //TODO make this better
 		double data[][] = new double[10][3];  //TODO make this smart and not hard coded
 		
 		for (int i = 0; i < data.length; i++) {
@@ -22,8 +23,11 @@ public class Parser{
 		
 		try {
 			FileInputStream fis = new FileInputStream(new File(fileLocation));
+//			ClassLoader cs = Thread.currentThread().getContextClassLoader();
+			//DataInputStream in =  cs.getResourceAsStream("source.txt"); 
 			DataInputStream in = new DataInputStream(fis);
-			BufferedReader bis = new BufferedReader(new InputStreamReader(in)); 
+			InputStreamReader isr = new InputStreamReader(in);
+			BufferedReader bis = new BufferedReader(isr); 
 			String input;
 			
 			
@@ -52,7 +56,16 @@ public class Parser{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}				
+		}		
+		
+		for (int i = 0; i < data.length; i++) {
+			System.out.print("\n");
+			for (int j = 0; j < data[i].length; j++) {
+				System.out.print(data[i][j] + "\t");
+
+			}
+		}
+		
 		return data;
 	}
 	

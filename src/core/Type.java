@@ -1,5 +1,5 @@
 package core;
 
 public enum Type{
-	DRIVE,WAIT	
+	DRIVE,WAIT_TIMER,WAIT_GYRO
 }

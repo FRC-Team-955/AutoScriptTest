@@ -29,7 +29,7 @@ public class Drive {
 	 * TODO talk about change to radians
 	 */
 	public void move(double r, double theta) {
-		
+		theta *= (Math.PI/180);
 		double xPos = r*Math.cos(theta);
 		double yPos = r*Math.sin(theta);
 		
@@ -38,6 +38,8 @@ public class Drive {
 		
         double left = y + x;
         double right = y - x;
+        
+        System.out.println("\nTheta: "+theta+"yPos: "+yPos+"\txPos: "+xPos+"\tRight: " + right + "\tLeft: "  + left);
         
         leftCimGroup.set(left);
         rightCimGroup.set(right);

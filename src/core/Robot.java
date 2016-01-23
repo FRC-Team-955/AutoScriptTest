@@ -14,9 +14,11 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 public class Robot extends IterativeRobot {	
 	RobotCore robotCore = new RobotCore();
 	Drive drive = new Drive(robotCore); 
+	Parser parser = new Parser();
+	Interpreter interp = new Interpreter(drive, robotCore);
 	IntakeRamp ir1 = new IntakeRamp(config.IRConfig.chnRampA1, config.IRConfig.chnRampA2, config.IRConfig.chnCimIntakeA, IRConfig.cimIntakeAIsFlipped);
 	IntakeRamp ir2 = new IntakeRamp(config.IRConfig.chnRampB1, config.IRConfig.chnRampB2, config.IRConfig.chnCimIntakeB, IRConfig.cimIntakeBIsFlipped);
-	Auto auto = new Auto(robotCore, ir1, ir2, drive);
+	Auto auto = new Auto(robotCore, ir1, ir2, drive, interp);
 	
 	Teleop teleop = new Teleop(robotCore, drive, ir1, ir2);
 	
@@ -25,7 +27,11 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-
+    	
+    }
+    
+    public void autonomousInit() {
+    	interp.interpInit();
     }
 
     /**

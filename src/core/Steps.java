@@ -2,19 +2,22 @@ package core;
 
 public class Steps {
 
-	public static double getStep(Type type) {
+	public static int getStep(Type type) {
 		
-		double i;
+		int i;
 		
 		switch (type) {
 		case DRIVE:
-			i = 0.0;
+			i = 0;
 			break;
-		case WAIT:
-			i=1.0;
+		case WAIT_TIMER:
+			i=1;
+			break;
+		case WAIT_GYRO:
+			i=2;
 			break;
 		default:
-			i = -1.0; 
+			i = -1; 
 			break;
 		}
 		return i;
