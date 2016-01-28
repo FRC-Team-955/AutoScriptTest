@@ -37,43 +37,47 @@ public class Interpreter
 		if(timer.get() >= wantValue) {
 			timer.stop();
 			timer.reset();
+			System.out.println("ITS DONE");
 			next();
 		}
+		System.out.println("navX: " + robotCore.navX.getAngle());
 	}
 	
 	private void waitGyro(double ang){
+
+		double currAng = robotCore.navX.getAngle();
 		
 		if(isFirst){
 			prevAng = robotCore.navX.getAngle();
 			isFirst = false;
-			prevAng = 0;
+			prevAng = currAng;
 			angChange = 0;
 		}
-		double currAng = robotCore.navX.getAngle();
 		
 		if (Math.abs(prevAng - currAng) > interpConfig.angChangeThreshold){
 			if(prevAng > 0)
-				angChange += -((currAng - prevAng) + 360);	
+				angChange += ((currAng - prevAng) + 360);	
 			else
-				angChange += ((currAng - prevAng) - 360);	
+				angChange += -((currAng - prevAng) - 360);	
 		}
 		
 		else {
-			angChange += (currAng - prevAng);			
+			angChange += (currAng - prevAng);	
+			System.out.println("Added in else");
 		}
 		
-		if(ang > 0 && angChange > ang) {
+		if((ang > 0 && angChange > ang) || ang > 0 && (angChange+360) < ang) {
 			next();
 		}
 		
-		else if (ang < 0 && angChange < ang) {
+		else if (ang < 0 && angChange < ang || ang < 0 && (angChange-360) > ang) {
 			next();
 		}
+		System.out.println("angChange: " + angChange + "\tcurrAng: " + currAng + "\tprevAng: " + prevAng + "\tisFirst: " + isFirst  + "\tnavX: " + robotCore.navX.getAngle());
 		prevAng = currAng;
 	}
 	
 	public void dispatch(){
-		
 		if((commands[autoStep][0]) == -1) {	//Dead line
 			drive.move(0, 0);
 			System.out.println("Dead line at " + autoStep);
