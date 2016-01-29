@@ -28,6 +28,52 @@ public class Interpreter
 		autoStep++;
 	}
 	
+	private void turn(double velocity, double turnAng) {
+//		turnAng*=-1;
+		double currAng = robotCore.navX.getAngle();
+		double error = turnAng+angChange;
+		double kP = 0.02;
+		double angVelocity = kP*error;
+		
+		if(angVelocity > 1) 
+			angVelocity = 1;
+		else if(angVelocity < -1)
+			angVelocity = -1;
+		
+		angVelocity *= velocity;
+		drive.set(angVelocity, -angVelocity);
+		
+		if(isFirst){
+			prevAng = robotCore.navX.getAngle();
+			isFirst = false;
+			prevAng = currAng;
+			angChange = 0;
+		}
+		
+		if((turnAng > 0 && angChange > turnAng) || turnAng > 0 && (angChange+360) < turnAng) {
+		
+		}
+		
+		else if (turnAng < 0 && angChange < turnAng || turnAng < 0 && (angChange-360) > turnAng) {
+			
+		}
+		
+		if (Math.abs(prevAng - currAng) > interpConfig.angChangeThreshold){
+			if(prevAng > 0)
+				angChange += ((currAng - prevAng) + 360);	
+			else
+				angChange += -((currAng - prevAng) - 360);	
+		}
+		
+		else {
+			angChange += (currAng - prevAng);	
+			System.out.println("Added in else");
+		}
+		
+		System.out.print("angChange: " + angChange + "\tcurrAng: " + currAng + "\tprevAng: " + prevAng + "\tisFirst: " + isFirst + "\terror: " + error + "\tvelocity: " + angVelocity);
+		prevAng = currAng;
+	}
+	
 	private void waitTimer(double wantValue){
 		if(isFirst){
 			timer.start();
@@ -93,5 +139,9 @@ public class Interpreter
 		else if ((commands[autoStep][0]) == Steps.getStep(Type.WAIT_GYRO)) {	//Wait
 			waitGyro(commands[autoStep][1]);
 		}
+		else if ((commands[autoStep][0]) == Steps.getStep(Type.TURN)) {	//Wait
+			turn(commands[autoStep][1],commands[autoStep][2]);
+		}
+		System.out.println("\tnavX: " + robotCore.navX.getAngle());
 	}
 }

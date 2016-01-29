@@ -16,6 +16,9 @@ public class Steps {
 		case WAIT_GYRO:
 			i=2;
 			break;
+		case TURN:
+			i=3;
+			break;
 		default:
 			i = -1; 
 			break;

@@ -44,6 +44,11 @@ public class Drive {
         leftCimGroup.set(left);
         rightCimGroup.set(right);
 	}
+	
+	public void set(double left, double right) {
+		leftCimGroup.set(left);
+		rightCimGroup.set(right);
+	}
 	 
 	// Enumeration for future move method for streamlining auto
 	public  static enum move {
